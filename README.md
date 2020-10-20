@@ -1,5 +1,5 @@
 # RaeBar - Raeli's Data Bar
-A simple data broken display.
+A simple data broker display.
 
 ## Download
 todo
