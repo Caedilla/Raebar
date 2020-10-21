@@ -2,20 +2,30 @@
 ## Interface: 90001
 #@end-retail@
 #@non-retail@
-## Interface: 11305
+# ## Interface: 11305
 #@end-non-retail@
 ## Title: Raebar
 ## Notes: Raeli's data bar.
 ## Author: Raeli
 ## Version: @project-version@
-## SavedVariables: rdb
-## X-SavedVariables: rdb
+## SavedVariables: rbdb
+## X-SavedVariables: rbdb
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibDualSpec-1.0, LibRangeCheck-2.0, LibSharedMedia-3.0
 ## X-Credits: Icon Font created with IcoMoon.io using icons from Freepik & Plainicon, from www.flaticon.com
 
-Embeds.xml
+#Embeds.xml
+Libs/LibDataBroker-1.1/LibDataBroker-1.1.lua
 
 Initialize.lua
-Defaults.lua
-Utilities.lua
-Options.lua
+#Defaults.lua
+#Utilities.lua
+#Options.lua
+
+Elements/Durability.lua
+Elements/Latency.lua
+Elements/System.lua
+
+
+
+
+Enable.lua
