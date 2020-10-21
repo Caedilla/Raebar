@@ -52,7 +52,7 @@ local elementSpace, elementEnd = 5, 2
 local frames, lastframe = {}
 local function CreateObject(name)
 	local obj = LDB:GetDataObjectByName(name)
-	local elementName = string.format("%s_%s", addon.addonName, name)
+	local elementName = string.format('%s_%s', addon.addonName, name)
 
 	-- TODO replace nil with bar when I get around to creating it
 	local frame = CreateFrame('frame', elementName, nil, BackdropTemplateMixin and 'BackdropTemplate')
@@ -61,7 +61,7 @@ local function CreateObject(name)
 	frame.OnTextChanged = OnTextChanged
 	frame.obj = obj
 
-	frame:SetPoint("LEFT", lastframe or UIParent, lastframe and "RIGHT" or "LEFT", lastframe and elementSpace or elementEnd, 0)
+	frame:SetPoint('LEFT', lastframe or UIParent, lastframe and 'RIGHT' or 'LEFT', lastframe and elementSpace or elementEnd, 0)
 	frame:SetSize(100,20)
 	local text = frame:CreateFontString()
 	text:SetAllPoints(frame)
@@ -88,4 +88,5 @@ end
 
 CreateObject('rbSystem')
 CreateObject('rbLatency')
+CreateObject('rbTime')
 CreateObject('rbDurability')

@@ -1,6 +1,6 @@
 local addon = LibStub('AceAddon-3.0'):GetAddon('Raebar')
-local LDB = LibStub:GetLibrary("LibDataBroker-1.1")
-local obj = LDB:NewDataObject('rbDurability', {type = 'data source', text = "Durability"})
+local LDB = LibStub:GetLibrary('LibDataBroker-1.1')
+local obj = LDB:NewDataObject('rbDurability', {type = 'data source', text = 'Durability'})
 
 local invSlotIDs = {
 	[1] = _G['INVTYPE_HEAD'],
@@ -38,7 +38,7 @@ local function UpdateData(self, event)
 	averageDurability = averageDurability / equippedCount
 
 	obj.text = string.format('Armor: %s%%', averageDurability)
-	obj.value = averageDurability
+	obj.value = string.format('%.0f',averageDurability)
 	obj.suffix = '%'
 end
 UpdateData()

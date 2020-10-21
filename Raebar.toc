@@ -22,10 +22,13 @@ Initialize.lua
 #Options.lua
 
 Elements/Durability.lua
+#Elements/Friends.lua
+#Elements/Gold.lua
+#Elements/Guild.lua
 Elements/Latency.lua
+#Elements/Missions.lua
+#Elements/Spec.lua
 Elements/System.lua
-
-
-
+Elements/Time.lua
 
 Enable.lua
