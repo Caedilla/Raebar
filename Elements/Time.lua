@@ -1,4 +1,4 @@
-local addon = LibStub('AceAddon-3.0'):GetAddon('Raebar')
+local RaeBar = LibStub('AceAddon-3.0'):GetAddon('Raebar')
 local LDB = LibStub:GetLibrary('LibDataBroker-1.1')
 local obj = LDB:NewDataObject('rbTime', {type = 'data source', text = 'Time'})
 local updatePeriod = 5

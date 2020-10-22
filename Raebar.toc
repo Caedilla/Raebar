@@ -16,11 +16,16 @@
 #Embeds.xml
 Libs/LibDataBroker-1.1/LibDataBroker-1.1.lua
 
+# Localisaiton
+Localisation\enUS.lua
+
+# Core
 Initialize.lua
-#Defaults.lua
+Defaults.lua
 #Utilities.lua
 #Options.lua
 
+# Elements
 Elements/Durability.lua
 #Elements/Friends.lua
 #Elements/Gold.lua
@@ -31,4 +36,5 @@ Elements/Latency.lua
 Elements/System.lua
 Elements/Time.lua
 
+# Finalise & Enable Addon
 Enable.lua
