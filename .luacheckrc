@@ -26,10 +26,14 @@ ignore = {
 	"241", -- mutated but never accessed.
 }
 globals = {
+	"InterfaceOptionsFrame",
+	"GameMenuFrame",
+
 	-- Libraries
 	"LibStub",
 
 	-- FrameXML misc
+	"BackdropTemplateMixin",
 	"C_Timer",
 	"C_Calendar",
 	"ChatFrame_AddMessageEventFilter",
