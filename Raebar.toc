@@ -7,7 +7,8 @@
 ## Title: Raebar
 ## Notes: Raeli's data bar.
 ## Author: Raeli
-## Version: @project-version@
+# ## Version: @project-version@
+## Version: r1
 ## SavedVariables: rbdb
 ## X-SavedVariables: rbdb
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, LibDualSpec-1.0, LibRangeCheck-2.0, LibSharedMedia-3.0
@@ -24,6 +25,8 @@ Initialize.lua
 Defaults.lua
 #Utilities.lua
 #Options.lua
+Elements/Bar.lua
+Elements/Setup.lua
 
 # Elements
 Elements/Durability.lua
