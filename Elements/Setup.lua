@@ -52,17 +52,17 @@ local function OnClickChanged(self, event, name, key, value, obj)
 end
 
 local function OnTextChanged(self, event, name, key, value, obj)
-	self.fontString:SetText(obj.text)
+	self.text:SetText(obj.text)
 end
+
+
 
 local elementSpace, elementEnd = 5, 2
 local frames, lastframe = {}
 local firstFrame = nil
-function RaeBar:CreateObject(name)
-	local obj = LDB:GetDataObjectByName(name)
-	if not obj then return end
+function RaeBar:CreateObject(id, objName)
 
-	local elementName = string.format('%s_%s', 'RaeBar', name)
+	local elementName = string.format('%s_%s', 'RaeBarElement', id)
 
 	-- TODO replace nil with bar when I get around to creating it
 	local frame = CreateFrame('button', elementName, UIParent)
@@ -71,25 +71,42 @@ function RaeBar:CreateObject(name)
 
 	frame.OnClickChanged = OnClickChanged
 	frame.OnTextChanged = OnTextChanged
-	frame.obj = obj
 
 	if not firstFrame then
-		firstFrame = elementName
-		frame:SetPoint('LEFT', UIParent, 'TOP', -275, -14)
+		firstFrame = frame
+		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -12)
 	else
 		frame:SetPoint('LEFT', lastframe or UIParent, lastframe and 'RIGHT' or 'LEFT', lastframe and elementSpace or elementEnd, 0)
 	end
 	frame:SetSize(100,20)
 	local text = frame:CreateFontString()
 	text:SetAllPoints(frame)
-	frame.fontString = text
+	frame.text = text
 
 	local Font = ''
 	Font = LSM:Fetch('font', 'RUF')
 	local size = 18
-
 	text:SetFont(Font, size)
-	text:SetText(obj.text)
+
+
+	RaeBar:SetDataSource(frame, objName)
+
+	frames[id], lastframe = frame, frame
+end
+
+function RaeBar:SetDataSource(frame, name)
+	if not frame and not _G[frame] then return end
+
+	-- Unregister all events first so we can use this function to unset elements too.
+	LDB.UnregisterAllCallbacks(frame)
+
+	local obj = LDB:GetDataObjectByName(name)
+	if not obj then return end
+
+	frame.obj = obj
+	frame.objName = name
+
+	frame.text:SetText(obj.text)
 
 	frame:SetScript('OnEnter', OnEnter)
 	frame:SetScript('OnLeave', OnLeave)
@@ -99,5 +116,15 @@ function RaeBar:CreateObject(name)
 	LDB.RegisterCallback(frame, 'LibDataBroker_AttributeChanged_'..name..'_OnClick', 'OnClickChanged')
 	LDB.RegisterCallback(frame, 'LibDataBroker_AttributeChanged_'..name..'_text', 'OnTextChanged')
 
-	frames[name], lastframe = frame, frame
+
+end
+
+function RaeBar:PositionGroup()
+	local distLeft = firstFrame:GetLeft()
+	local distRight = lastframe:GetRight()
+	local UIWidth = UIParent:GetWidth()
+
+	local pos = UIWidth / 2 - (distRight - distLeft) / 2
+	firstFrame:ClearAllPoints()
+	firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
 end

@@ -24,7 +24,6 @@ Localisation\enUS.lua
 Initialize.lua
 Defaults.lua
 #Utilities.lua
-#Options.lua
 Elements/Bar.lua
 Elements/Setup.lua
 
@@ -38,6 +37,9 @@ Elements/Latency.lua
 #Elements/Spec.lua
 Elements/System.lua
 Elements/Time.lua
+
+# Config
+Options.lua
 
 # Finalise & Enable Addon
 Enable.lua

@@ -11,7 +11,7 @@ function RaeBar:CreateBar(profile)
 
 	bar:SetPoint('TOPLEFT', UIParent, 'TOPLEFT', 0, 0)
 	bar:SetPoint('TOPRIGHT', UIParent, 'TOPRIGHT', 0, 0)
-	bar:SetHeight(20)
+	bar:SetHeight(22)
 
 	background:SetTexture(LSM:Fetch('background', 'Solid'))
 	background:SetVertexColor(0.1, 0.1, 0.1, 0.75)

@@ -34,7 +34,7 @@ end
 
 function RaeBar:ChatCommand(input)
 	if not InCombatLockdown() then
-		if _G['AceConfigDialog'].OpenFrames[addonName] then
+		if ACD.OpenFrames[addonName] then
 			ACD:Close(addonName)
 		else
 			ACD:Open(addonName)
