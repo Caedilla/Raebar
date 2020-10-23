@@ -59,6 +59,7 @@ end
 
 local elementSpace, elementEnd = 5, 2
 local frames, lastframe = {}
+local firstFrame = nil
 local function CreateObject(name)
 	local obj = LDB:GetDataObjectByName(name)
 	if not obj then return end
@@ -74,7 +75,12 @@ local function CreateObject(name)
 	frame.OnTextChanged = OnTextChanged
 	frame.obj = obj
 
-	frame:SetPoint('LEFT', lastframe or UIParent, lastframe and 'RIGHT' or 'LEFT', lastframe and elementSpace or elementEnd, 0)
+	if not firstFrame then
+		firstFrame = elementName
+		frame:SetPoint('LEFT', UIParent, 'TOP', -275, -14)
+	else
+		frame:SetPoint('LEFT', lastframe or UIParent, lastframe and 'RIGHT' or 'LEFT', lastframe and elementSpace or elementEnd, 0)
+	end
 	frame:SetSize(100,20)
 	local text = frame:CreateFontString()
 	text:SetAllPoints(frame)
@@ -90,7 +96,6 @@ local function CreateObject(name)
 	frame:SetScript('OnEnter', OnEnter)
 	frame:SetScript('OnLeave', OnLeave)
 	frame:SetScript('OnClick', OnClick)
-
 
 
 	LDB.RegisterCallback(frame, 'LibDataBroker_AttributeChanged_'..name..'_OnClick', 'OnClickChanged')
