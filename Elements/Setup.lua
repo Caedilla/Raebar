@@ -12,6 +12,12 @@ end
 
 local function OnEnter(self, ...)
 	if self.obj.OnEnter then self.obj.OnEnter(self, ...)
+	elseif self.obj.OnTooltipShow then
+		GameTooltip:SetOwner(self, 'ANCHOR_NONE')
+		GameTooltip:SetPoint(GetTipAnchor(self))
+		GameTooltip:ClearLines()
+		self.obj.OnTooltipShow(GameTooltip, self)
+		GameTooltip:Show()
 	else
 		GameTooltip:SetOwner(self, 'ANCHOR_NONE')
 		GameTooltip:SetPoint(GetTipAnchor(self))
