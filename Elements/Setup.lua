@@ -64,8 +64,7 @@ end
 
 
 local elementSpace, elementEnd = 5, 2
-local frames, lastframe = {}
-local firstFrame = nil
+RaeBar.frames = {}
 function RaeBar:CreateObject(id, objName)
 
 	local elementName = string.format('%s_%s', 'RaeBarElement', id)
@@ -78,11 +77,11 @@ function RaeBar:CreateObject(id, objName)
 	frame.OnClickChanged = OnClickChanged
 	frame.OnTextChanged = OnTextChanged
 
-	if not firstFrame then
-		firstFrame = frame
-		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -12)
+	if not RaeBar.firstFrame then
+		RaeBar.firstFrame = frame
+		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -14)
 	else
-		frame:SetPoint('LEFT', lastframe or UIParent, lastframe and 'RIGHT' or 'LEFT', lastframe and elementSpace or elementEnd, 0)
+		frame:SetPoint('LEFT', RaeBar.lastframe or UIParent, RaeBar.lastframe and 'RIGHT' or 'LEFT', RaeBar.lastframe and elementSpace or elementEnd, 0)
 	end
 	frame:SetSize(100,20)
 	local text = frame:CreateFontString()
@@ -97,7 +96,7 @@ function RaeBar:CreateObject(id, objName)
 
 	RaeBar:SetDataSource(frame, objName)
 
-	frames[id], lastframe = frame, frame
+	RaeBar.frames[id], RaeBar.lastframe = frame, frame
 end
 
 function RaeBar:SetDataSource(frame, name)
@@ -126,11 +125,11 @@ function RaeBar:SetDataSource(frame, name)
 end
 
 function RaeBar:PositionGroup()
-	local distLeft = firstFrame:GetLeft()
-	local distRight = lastframe:GetRight()
+	local distLeft = RaeBar.firstFrame:GetLeft()
+	local distRight = RaeBar.lastframe:GetRight()
 	local UIWidth = UIParent:GetWidth()
 
 	local pos = UIWidth / 2 - (distRight - distLeft) / 2
-	firstFrame:ClearAllPoints()
-	firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
+	RaeBar.firstFrame:ClearAllPoints()
+	RaeBar.firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
 end

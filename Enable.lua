@@ -25,6 +25,7 @@ local function AddNewElement(event, name, obj)
 		end
 	end
 
+	RaeBar:PositionBar()
 end
 
 function RaeBar:OnEnable()
@@ -36,6 +37,8 @@ function RaeBar:OnEnable()
 	LDB.RegisterCallback('RaeBar', 'LibDataBroker_DataObjectCreated', AddNewElement)
 
 	RaeBar:PositionGroup()
+
+	RaeBar:PositionBar()
 
 	RaeBar:RegisterOptions()
 end
