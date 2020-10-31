@@ -5,7 +5,7 @@ local LDB = LibStub:GetLibrary('LibDataBroker-1.1')
 
 local enabledObjects = {
 	'gmSpecs',
-	--'rbGold',
+	'rbGold',
 	'SavedInstances',
 	'gmFriends',
 	'gmGuild',

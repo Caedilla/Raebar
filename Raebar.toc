@@ -30,7 +30,7 @@ Elements/Setup.lua
 # Elements
 Elements/Durability.lua
 #Elements/Friends.lua
-#Elements/Gold.lua
+Elements/Gold.lua
 #Elements/Guild.lua
 Elements/Latency.lua
 #Elements/Missions.lua
