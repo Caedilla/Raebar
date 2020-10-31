@@ -99,7 +99,7 @@ function RaeBar:CreateObject(id, objName, groupName)
 	end
 	if not RaeBar.frames.group[groupName].firstFrame then
 		RaeBar.frames.group[groupName].firstFrame = frame
-		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -14)
+		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -15)
 	else
 		frame:SetPoint('LEFT', RaeBar.frames.group[groupName].lastframe or UIParent, RaeBar.frames.group[groupName].lastframe and 'RIGHT' or 'LEFT', RaeBar.frames.group[groupName].lastframe and elementSpace or elementEnd, 0)
 	end
@@ -149,5 +149,5 @@ function RaeBar:PositionGroup(groupName)
 
 	local pos = UIWidth / 2 - (distRight - distLeft) / 2
 	RaeBar.frames.group[groupName].firstFrame:ClearAllPoints()
-	RaeBar.frames.group[groupName].firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
+	RaeBar.frames.group[groupName].firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -15)
 end
