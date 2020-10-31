@@ -8,9 +8,9 @@ local function UpdateData()
 	local lDate = date('*t')
 
 	if 1 == 1 then
-		obj.text = string.format('%d|cFFFFCC00:|r%d',sHour,sMin)
+		obj.text = string.format('%02d|cFFFFCC00:|r%02d',sHour,sMin)
 	else
-		obj.text = string.format('%d|cFFFFCC00:|r%d|cFFFFCC00:|r%d',lDate.hour,lDate.min,lDate.sec)
+		obj.text = string.format('%02d|cFFFFCC00:|r%02d|cFFFFCC00:|r%02d',lDate.hour,lDate.min,lDate.sec)
 		updatePeriod = 0.5
 	end
 	C_Timer.After(updatePeriod, UpdateData)
