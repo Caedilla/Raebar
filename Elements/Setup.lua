@@ -62,27 +62,48 @@ local function OnTextChanged(self, event, name, key, value, obj)
 end
 
 
+-- TODO
+--[[
+3 Bar locations, left, center, and right - right and left can be offset
+left and right bar anchor off of first bar - left grows right, right grows left
+for center bar:
+	build number of elements, if there are an odd number, get the center point of the the middle element and
+	then set the anchor point of the middle element to be CENTER / BOTTOM / TOP and then work up and down the array
+	anchoring each other element off from the middle one.
+
+	for even numbers, do the same, but anchor the middle 2 on either side, i.e 4,5 in an 8 element setup
+	so 4 is anchored from the right going left of the center point, and 5 is anchored left going right from the center point
+
+	text in both cases should be justified to the center
+]]--
+
 
 local elementSpace, elementEnd = 5, 2
-RaeBar.frames = {}
-function RaeBar:CreateObject(id, objName)
+RaeBar.frames = {
+	group = {
 
+	}
+}
+function RaeBar:CreateObject(id, objName, groupName)
 	local elementName = string.format('%s_%s', 'RaeBarElement', id)
 
 	-- TODO replace nil with bar when I get around to creating it
 	local frame = CreateFrame('button', elementName, UIParent)
 
 	frame:RegisterForClicks("anyUp")
-
 	frame.OnClickChanged = OnClickChanged
 	frame.OnTextChanged = OnTextChanged
 
-	if not RaeBar.firstFrame then
-		RaeBar.firstFrame = frame
+	if not RaeBar.frames.group[groupName] then
+		RaeBar.frames.group[groupName] = {}
+	end
+	if not RaeBar.frames.group[groupName].firstFrame then
+		RaeBar.frames.group[groupName].firstFrame = frame
 		frame:SetPoint('LEFT', UIParent, 'TOP', 0, -14)
 	else
-		frame:SetPoint('LEFT', RaeBar.lastframe or UIParent, RaeBar.lastframe and 'RIGHT' or 'LEFT', RaeBar.lastframe and elementSpace or elementEnd, 0)
+		frame:SetPoint('LEFT', RaeBar.frames.group[groupName].lastframe or UIParent, RaeBar.frames.group[groupName].lastframe and 'RIGHT' or 'LEFT', RaeBar.frames.group[groupName].lastframe and elementSpace or elementEnd, 0)
 	end
+
 	frame:SetSize(100,20)
 	local text = frame:CreateFontString()
 	text:SetAllPoints(frame)
@@ -91,12 +112,11 @@ function RaeBar:CreateObject(id, objName)
 	local Font = ''
 	Font = LSM:Fetch('font', 'RUF')
 	local size = 18
-	text:SetFont(Font, size)
-
+	text:SetFont(Font, size, 'OUTLINE')
 
 	RaeBar:SetDataSource(frame, objName)
+	RaeBar.frames.group[groupName][id], RaeBar.frames.group[groupName].lastframe = frame, frame
 
-	RaeBar.frames[id], RaeBar.lastframe = frame, frame
 end
 
 function RaeBar:SetDataSource(frame, name)
@@ -117,19 +137,17 @@ function RaeBar:SetDataSource(frame, name)
 	frame:SetScript('OnLeave', OnLeave)
 	frame:SetScript('OnClick', OnClick)
 
-
 	LDB.RegisterCallback(frame, 'LibDataBroker_AttributeChanged_'..name..'_OnClick', 'OnClickChanged')
 	LDB.RegisterCallback(frame, 'LibDataBroker_AttributeChanged_'..name..'_text', 'OnTextChanged')
 
-
 end
 
-function RaeBar:PositionGroup()
-	local distLeft = RaeBar.firstFrame:GetLeft()
-	local distRight = RaeBar.lastframe:GetRight()
+function RaeBar:PositionGroup(groupName)
+	local distLeft = RaeBar.frames.group[groupName].firstFrame:GetLeft()
+	local distRight = RaeBar.frames.group[groupName].lastframe:GetRight()
 	local UIWidth = UIParent:GetWidth()
 
 	local pos = UIWidth / 2 - (distRight - distLeft) / 2
-	RaeBar.firstFrame:ClearAllPoints()
-	RaeBar.firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
+	RaeBar.frames.group[groupName].firstFrame:ClearAllPoints()
+	RaeBar.frames.group[groupName].firstFrame:SetPoint('LEFT', UIParent, 'TOP', -pos, -12)
 end

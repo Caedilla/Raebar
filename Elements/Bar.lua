@@ -4,9 +4,9 @@ local LSM = LibStub('LibSharedMedia-3.0')
 
 RaeBar.Bars = {}
 
-function RaeBar:CreateBar(profile)
+function RaeBar:CreateBar(groupName)
 
-	local barName = string.format('%s_%s', 'RaeBar', 1) -- replace 1 with profile.name
+	local barName = string.format('%s_%s', 'RaeBar', groupName)
 	local bar = CreateFrame('frame', barName, UIParent)
 	local background = bar:CreateTexture(nil, 'BACKGROUND')
 	local border = CreateFrame('frame', nil, bar, BackdropTemplateMixin and 'BackdropTemplate')
@@ -28,13 +28,12 @@ function RaeBar:CreateBar(profile)
 	RaeBar.Bars[barName] = bar
 end
 
-function RaeBar:PositionBar()
-	local barName = string.format('%s_%s', 'RaeBar', 1) -- replace 1 with profile.name
+function RaeBar:PositionBar(groupName)
+	local barName = string.format('%s_%s', 'RaeBar', groupName)
 	local bar = RaeBar.Bars[barName]
 
 	bar:ClearAllPoints()
-	bar:SetPoint('TOPLEFT', RaeBar.firstFrame, 'TOPLEFT', -5, 1)
-	bar:SetPoint('TOPRIGHT', RaeBar.lastframe, 'TOPRIGHT', 5, 1)
-
+	bar:SetPoint('TOPLEFT', RaeBar.frames.group[groupName].firstFrame, 'TOPLEFT', -5, 1)
+	bar:SetPoint('TOPRIGHT', RaeBar.frames.group[groupName].lastframe, 'TOPRIGHT', 5, 1)
 
 end

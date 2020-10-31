@@ -21,24 +21,24 @@ local enabledObjects = {
 local function AddNewElement(event, name, obj)
 	for i in pairs(enabledObjects) do
 		if enabledObjects[i] == name then
-			RaeBar:CreateObject(i+500, name)
+			RaeBar:CreateObject(i+500, name, 'CenterGroup')
 		end
 	end
 
-	RaeBar:PositionBar()
+	RaeBar:PositionBar('CenterGroup')
 end
 
 function RaeBar:OnEnable()
-	RaeBar:CreateBar()
+	RaeBar:CreateBar('CenterGroup')
 	for i = 1, #enabledObjects do
-		RaeBar:CreateObject(i, enabledObjects[i])
+		RaeBar:CreateObject(i, enabledObjects[i], 'CenterGroup')
 	end
 
 	LDB.RegisterCallback('RaeBar', 'LibDataBroker_DataObjectCreated', AddNewElement)
 
-	RaeBar:PositionGroup()
+	RaeBar:PositionGroup('CenterGroup')
 
-	RaeBar:PositionBar()
+	RaeBar:PositionBar('CenterGroup')
 
 	RaeBar:RegisterOptions()
 end
