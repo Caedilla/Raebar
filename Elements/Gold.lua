@@ -23,10 +23,8 @@ local function UpdateData()
 		goldDiff = 0 - goldDiff
 	end
 
-
-
-
 	RaeBar.db.global.gold[RaeBar.myRealm][RaeBar.myName] = curGold
+	RaeBar.rbGold.goldDiff = goldDiff
 
 	if 1 == 1 then
 		--obj.text = string.format('%02d|cFFFFCC00:|r%02d',sHour,sMin)
@@ -35,12 +33,34 @@ local function UpdateData()
 		updatePeriod = 0.5
 	end
 	C_Timer.After(updatePeriod, UpdateData)
+
+end
+
+function obj:OnTooltipShow()
+	UpdateData()
+
+	self:AddLine(RaeBar.rbGold.goldDiff)
+end
+
+function obj:OnEnter()
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
+	GameTooltip:ClearLines()
+	obj.OnTooltipShow(GameTooltip)
+	GameTooltip:Show()
+end
+
+function obj:OnLeave()
+	GameTooltip:Hide()
 end
 
 FirstRun()
 UpdateData()
 
 local updateFrame = CreateFrame('frame')
-updateFrame:RegisterEvent('UPDATE_INVENTORY_DURABILITY', UpdateData)
-updateFrame:RegisterEvent('MERCHANT_SHOW', UpdateData)
+updateFrame:RegisterEvent('PLAYER_MONEY', UpdateData)
+updateFrame:RegisterEvent('SEND_MAIL_MONEY_CHANGED', UpdateData)
+updateFrame:RegisterEvent('SEND_MAIL_COD_CHANGED', UpdateData)
+updateFrame:RegisterEvent('PLAYER_TRADE_MONEY', UpdateData)
+updateFrame:RegisterEvent('TRADE_MONEY_CHANGED', UpdateData)
 updateFrame:SetScript('OnEvent', UpdateData)
