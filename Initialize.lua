@@ -45,7 +45,7 @@ function RaeBar:ChatCommand(input)
 end
 
 function RaeBar:OnInitialize()
-	self.db = LibStub('AceDB-3.0'):New('rbdb', RaeBar.defaults)
+	self.db = LibStub('AceDB-3.0'):New('rbdb', RaeBar.defaults, true)
 
 	self:RegisterChatCommand('RB', 'ChatCommand')
 	self:RegisterChatCommand('RAEBAR', 'ChatCommand')
@@ -57,7 +57,6 @@ function RaeBar:OnInitialize()
 
 	-- Add Button to open Ace3 Options panel.
 	RaeBar:TempOptions()
-
 end
 
 function RaeBar:RefreshConfig()
