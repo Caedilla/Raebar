@@ -59,8 +59,7 @@ local function UpdateData()
 		--obj.text = string.format('%02d|cFFFFCC00:|r%02d|cFFFFCC00:|r%02d',lDate.hour,lDate.min,lDate.sec)
 		updatePeriod = 0.5
 	end
-	C_Timer.After(updatePeriod, UpdateData)
-
+		C_Timer.After(updatePeriod, UpdateData)
 end
 
 function obj:OnTooltipShow()
@@ -86,10 +85,17 @@ function obj:OnLeave()
 	GameTooltip:Hide()
 end
 
+local events = {
+	'PLAYER_ENTERING_WORLD',
+	'PLAYER_MONEY',
+	'SEND_MAIL_MONEY_CHANGED',
+	'SEND_MAIL_COD_CHANGED',
+	'PLAYER_TRADE_MONEY',
+	'TRADE_MONEY_CHANGED',
+}
+
 local updateFrame = CreateFrame('frame')
-updateFrame:RegisterEvent('PLAYER_MONEY', UpdateData)
-updateFrame:RegisterEvent('SEND_MAIL_MONEY_CHANGED', UpdateData)
-updateFrame:RegisterEvent('SEND_MAIL_COD_CHANGED', UpdateData)
-updateFrame:RegisterEvent('PLAYER_TRADE_MONEY', UpdateData)
-updateFrame:RegisterEvent('TRADE_MONEY_CHANGED', UpdateData)
+for i = 1, #events do
+	updateFrame:RegisterEvent(events[i], UpdateData)
+end
 updateFrame:SetScript('OnEvent', UpdateData)
