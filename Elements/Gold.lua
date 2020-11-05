@@ -1,9 +1,13 @@
 local RaeBar = LibStub('AceAddon-3.0'):GetAddon('Raebar')
 local LDB = LibStub:GetLibrary('LibDataBroker-1.1')
 local obj = LDB:NewDataObject('rbGold', {type = 'data source', text = 'Gold'})
-local updatePeriod = 5
 local sessionStartGold, curGold
 local initiated
+local colors = {
+	['g'] = 'ffbf35',
+	['s'] = 'c4c4c4',
+	['c'] = 'da8f47',
+}
 RaeBar.rbGold = {}
 
 local function FirstRun()
@@ -54,13 +58,8 @@ local function UpdateData()
 
 	local g, s, c = FormatGold(curGold)
 	g, s, c = BreakUpLargeNumbers(g), BreakUpLargeNumbers(s), BreakUpLargeNumbers(c)
-	if 1 == 1 then
-		obj.text = string.format('%s|cFFFFCC00g|r',g)
-	else
-		--obj.text = string.format('%02d|cFFFFCC00:|r%02d|cFFFFCC00:|r%02d',lDate.hour,lDate.min,lDate.sec)
-		updatePeriod = 0.5
-	end
-		C_Timer.After(updatePeriod, UpdateData)
+
+	obj.text = string.format('%s|cFF%sg|r',g, colors.g)
 end
 
 function obj:OnTooltipShow()
@@ -71,8 +70,7 @@ function obj:OnTooltipShow()
 	if RaeBar.rbGold.goldDiff < 0 then
 		negative = '-'
 	end
-	self:AddLine(string.format('%s%s|cFFFFCC00g|r %s|cFFFFCC00s|r %s|cFFFFCC00c|r', negative, g, s, c))
-
+	self:AddLine(string.format('|cFFFFFFFF%s%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', negative, g, colors.g, s, colors.s, c, colors.c))
 end
 
 function obj:OnEnter()
