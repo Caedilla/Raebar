@@ -34,7 +34,9 @@ local function UpdateXPBar(self, event, ...)
 	local xp, xpMax = UnitXP('player'), UnitXPMax('player')
 	self:SetMinMaxValues(0, xpMax)
 	self:SetValue(xp)
-
+	if UnitLevel('player') == 50 then
+		self:Hide()
+	end
 end
 
 function RaeBar:CreateStatusBar(groupName)
