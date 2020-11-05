@@ -33,6 +33,8 @@ globals = {
 	"LibStub",
 
 	-- FrameXML misc
+	"InterfaceAddOnsList_Update",
+	"GetNormalizedRealmName",
 	"BackdropTemplateMixin",
 	"C_Timer",
 	"C_Calendar",
