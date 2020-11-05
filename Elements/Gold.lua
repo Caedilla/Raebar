@@ -53,8 +53,9 @@ local function UpdateData()
 
 
 	local g, s, c = FormatGold(curGold)
+	g, s, c = BreakUpLargeNumbers(g), BreakUpLargeNumbers(s), BreakUpLargeNumbers(c)
 	if 1 == 1 then
-		obj.text = string.format('%d|cFFFFCC00g|r',g)
+		obj.text = string.format('%s|cFFFFCC00g|r',g)
 	else
 		--obj.text = string.format('%02d|cFFFFCC00:|r%02d|cFFFFCC00:|r%02d',lDate.hour,lDate.min,lDate.sec)
 		updatePeriod = 0.5
@@ -65,11 +66,12 @@ end
 function obj:OnTooltipShow()
 	UpdateData()
 	local g, s, c = FormatGold(RaeBar.rbGold.goldDiff)
+	g, s, c = BreakUpLargeNumbers(g), BreakUpLargeNumbers(s), BreakUpLargeNumbers(c)
 	local negative = ''
 	if RaeBar.rbGold.goldDiff < 0 then
 		negative = '-'
 	end
-	self:AddLine(string.format('%s%d|cFFFFCC00g|r %d|cFFFFCC00s|r %d|cFFFFCC00c|r', negative, g, s, c))
+	self:AddLine(string.format('%s%s|cFFFFCC00g|r %s|cFFFFCC00s|r %s|cFFFFCC00c|r', negative, g, s, c))
 
 end
 
