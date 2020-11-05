@@ -26,6 +26,39 @@ function RaeBar:CreateBar(groupName)
 	border:SetBackdropBorderColor(0, 0, 0, 1)
 
 	RaeBar.Bars[barName] = bar
+
+	RaeBar.CreateStatusBar(bar, groupName)
+end
+
+local function UpdateXPBar(self, event, ...)
+	local xp, xpMax = UnitXP('player'), UnitXPMax('player')
+	self:SetMinMaxValues(0, xpMax)
+	self:SetValue(xp)
+
+end
+
+function RaeBar:CreateStatusBar(groupName)
+	local barName = string.format('%s_%s', 'RaeBarStatusBar', groupName)
+	local bar = CreateFrame('StatusBar', barName, self)
+	local texture = LSM:Fetch('statusbar', '1.Raeli')
+	local events = {
+		'PLAYER_XP_UPDATE',
+		'UPDATE_EXHAUSTION',
+	}
+
+	bar:SetAllPoints(self)
+	bar:SetStatusBarTexture(texture)
+	bar:SetStatusBarColor(0.9, 0.9, 1, 0.75)
+	bar:SetFrameLevel(1)
+
+	for i = 1, #events do
+		bar:RegisterEvent(events[i], UpdateXPBar)
+	end
+	bar:SetScript('OnEvent', UpdateXPBar)
+
+	bar.Update = UpdateXPBar
+
+	bar:Update()
 end
 
 function RaeBar:PositionBar(groupName)
