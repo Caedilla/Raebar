@@ -12,7 +12,6 @@ local colors = {
 local goldDiff
 local serverGold = {}
 
-
 local function FirstRun()
 	if not myRealm then
 		myRealm = GetNormalizedRealmName()
@@ -58,6 +57,16 @@ local function UpdateData()
 	obj.text = string.format('%s|cFF%sg|r',g, colors.g)
 end
 
+function obj:OnClick(button)
+	if button == 'LeftButton' then
+		ToggleAllBags()
+	elseif IsShiftKeyDown() then
+		goldDiff = 0
+		sessionStartGold = curGold
+		obj.OnEnter(self)
+	end
+end
+
 function obj:OnTooltipShow()
 	UpdateData()
 	local g, s, c = FormatGold(goldDiff)
@@ -70,6 +79,7 @@ function obj:OnTooltipShow()
 	end
 	if goldDiff ~= 0 then
 		self:AddDoubleLine(leftText, string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
+		self:AddLine(' ')
 	end
 
 	serverGold[myRealm] = 0
@@ -82,6 +92,7 @@ function obj:OnTooltipShow()
 	end
 
 	g,s,c = FormatGold(serverGold[myRealm] + GetMoney())
+	self:AddLine(' ')
 	self:AddDoubleLine('Total: ', string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
 
 end
