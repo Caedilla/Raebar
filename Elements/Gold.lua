@@ -3,43 +3,42 @@ local LDB = LibStub:GetLibrary('LibDataBroker-1.1')
 local obj = LDB:NewDataObject('rbGold', {type = 'data source', text = 'Gold'})
 local sessionStartGold, curGold
 local initiated
+local myRealm, myName = GetNormalizedRealmName(), UnitName('player')
 local colors = {
 	['g'] = 'ffbf35',
 	['s'] = 'c4c4c4',
 	['c'] = 'da8f47',
 }
-RaeBar.rbGold = {}
+local goldDiff
+local serverGold = {}
+
 
 local function FirstRun()
-	if not RaeBar.myRealm then
-		RaeBar.myRealm = GetNormalizedRealmName()
-	end
-	if not RaeBar.myName then
-		RaeBar.myName = UnitName('player')
+	if not myRealm then
+		myRealm = GetNormalizedRealmName()
 	end
 
 	if not RaeBar.db.global.gold then
 		RaeBar.db.global.gold = {
-			[RaeBar.myRealm] = {
-				[RaeBar.myName] = 0
+			[myRealm] = {
+				[myName] = 0
 			}
 		}
-	elseif not RaeBar.db.global.gold[RaeBar.myRealm] then
-		RaeBar.db.global.gold[RaeBar.myRealm] = {
-			[RaeBar.myName] = 0
+	elseif not RaeBar.db.global.gold[myRealm] then
+		RaeBar.db.global.gold[myRealm] = {
+			[myName] = 0
 		}
 	end
 	initiated = true
 end
 
 local function FormatGold(amount)
-	local value = abs(amount)
-	local gold = floor(value / 10000)
-	local silver = floor(mod(value / 100, 100))
-	local copper = floor(mod(value, 100))
+	local value = math.abs(amount)
+	local gold = math.floor(value / 10000)
+	local silver = math.floor(mod(value / 100, 100))
+	local copper = math.floor(mod(value, 100))
 
-
-	return gold, silver, copper
+	return BreakUpLargeNumbers(gold), BreakUpLargeNumbers(silver), BreakUpLargeNumbers(copper)
 end
 
 local function UpdateData()
@@ -50,27 +49,41 @@ local function UpdateData()
 	if not sessionStartGold then
 		sessionStartGold = curGold
 	end
-	local goldDiff = curGold - sessionStartGold
+	goldDiff = curGold - sessionStartGold
 
-	RaeBar.db.global.gold[RaeBar.myRealm][RaeBar.myName] = curGold
-	RaeBar.rbGold.goldDiff = goldDiff
-
+	RaeBar.db.global.gold[myRealm][myName] = curGold
 
 	local g, s, c = FormatGold(curGold)
-	g, s, c = BreakUpLargeNumbers(g), BreakUpLargeNumbers(s), BreakUpLargeNumbers(c)
 
 	obj.text = string.format('%s|cFF%sg|r',g, colors.g)
 end
 
 function obj:OnTooltipShow()
 	UpdateData()
-	local g, s, c = FormatGold(RaeBar.rbGold.goldDiff)
-	g, s, c = BreakUpLargeNumbers(g), BreakUpLargeNumbers(s), BreakUpLargeNumbers(c)
-	local negative = ''
-	if RaeBar.rbGold.goldDiff < 0 then
-		negative = '-'
+	local g, s, c = FormatGold(goldDiff)
+
+	local leftText = ''
+	if goldDiff < 0 then
+		leftText = 'Spent: '
+	else
+		leftText = 'Earned: '
 	end
-	self:AddLine(string.format('|cFFFFFFFF%s%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', negative, g, colors.g, s, colors.s, c, colors.c))
+	if goldDiff ~= 0 then
+		self:AddDoubleLine(leftText, string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
+	end
+
+	serverGold[myRealm] = 0
+	for k,v in pairs(RaeBar.db.global.gold[myRealm]) do
+		if k ~= myName then
+			serverGold[myRealm] = serverGold[myRealm] + v
+			g, s, c = FormatGold(RaeBar.db.global.gold[myRealm][k])
+			self:AddDoubleLine(string.format('%s: ', k), string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
+		end
+	end
+
+	g,s,c = FormatGold(serverGold[myRealm] + GetMoney())
+	self:AddDoubleLine('Total: ', string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
+
 end
 
 function obj:OnEnter()
