@@ -8,6 +8,8 @@ local colors = {
 	['g'] = 'ffbf35',
 	['s'] = 'c4c4c4',
 	['c'] = 'da8f47',
+	['loss'] = 'FF0000',
+	['gain'] = '00FF00',
 }
 local goldDiff
 local serverGold = {}
@@ -73,9 +75,9 @@ function obj:OnTooltipShow()
 
 	local leftText = ''
 	if goldDiff < 0 then
-		leftText = 'Spent: '
+		leftText = string.format('|cFF%s%s|r', colors.loss, 'Spent: ')
 	else
-		leftText = 'Earned: '
+		leftText = string.format('|cFF%s%s|r', colors.gain, 'Earned: ')
 	end
 	if goldDiff ~= 0 then
 		self:AddDoubleLine(leftText, string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
