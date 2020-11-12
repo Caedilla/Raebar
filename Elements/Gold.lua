@@ -99,7 +99,7 @@ function obj:OnTooltipShow()
 			serverGold[myRealm] = serverGold[myRealm] + v.gold
 			g, s, c = FormatGold(RaeBar.db.global.gold[myRealm][k].gold)
 			local classColor = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[RaeBar.db.global.gold[myRealm][k].class].colorStr
-			self:AddDoubleLine(string.format('|c%s%s|r: ', classColor, k), string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
+			self:AddDoubleLine(string.format('|c%s%s|r', classColor, k), string.format('|cFFFFFFFF%s|cFF%sg|r %s|cFF%ss|r %s|cFF%sc|r|r', g, colors.g, s, colors.s, c, colors.c))
 		end
 	end
 
